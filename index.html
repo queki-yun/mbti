@@ -444,7 +444,7 @@ body {
   margin-bottom: 24px;
   text-align: center;
 }
-.report-chart-container canvas { max-width: 300px; }
+.report-chart-container canvas { max-width: 460px; }
 
 /* Restart Button */
 .report-restart {
@@ -870,7 +870,7 @@ window.drawRadarChart = function(canvas, scores) {
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
   const w = canvas.parentElement.clientWidth || 300;
-  const size = Math.min(w, 300);
+  const size = Math.min(w, 460);
   canvas.width = size * dpr;
   canvas.height = size * dpr;
   canvas.style.width = size + 'px';
@@ -879,7 +879,7 @@ window.drawRadarChart = function(canvas, scores) {
 
   const cx = size / 2;
   const cy = size / 2;
-  const radius = size * 0.33;
+  const radius = size * 0.26;
   const levels = 4;
   const dims = [
     { key: 'EI', label: '外向 E / 内向 I' },
@@ -953,28 +953,45 @@ window.drawRadarChart = function(canvas, scores) {
   // Labels
   ctx.fillStyle = '#4a5568';
   ctx.font = 'bold 12px -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
   for (let i = 0; i < numDims; i++) {
     const angle = (Math.PI * 2 / numDims) * i - Math.PI / 2;
     const labelR = radius + 50;
     const x = cx + labelR * Math.cos(angle);
     const y = cy + labelR * Math.sin(angle);
 
-    // Percentage
+    // Percentage (inner circle)
     ctx.fillStyle = '#667eea';
     ctx.font = 'bold 13px -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif';
     const pctR = radius + 25;
     const px = cx + pctR * Math.cos(angle);
     const py = cy + pctR * Math.sin(angle);
-    ctx.fillText(scores[dims[i].key] + '%', px, py);
-
-    // Label
-    ctx.fillStyle = '#4a5568';
-    ctx.font = 'bold 12px -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif';
-    // 简单方案：不调对齐，直接画
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+    ctx.fillText(scores[dims[i].key] + '%', px, py);
+
+    // Label (outer circle) - fix orientation
+    ctx.fillStyle = '#4a5568';
+    ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif';
+    
+    // 根据角度调整文字对齐方式，避免颠倒
+    if (Math.abs(angle) < 0.1 || Math.abs(angle - Math.PI) < 0.1) {
+      // 水平方向（左右）
+      ctx.textAlign = 'center';
+      ctx.textBaseline = angle > 0 ? 'top' : 'bottom';
+    } else if (Math.abs(angle + Math.PI/2) < 0.1) {
+      // 上方
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+    } else if (Math.abs(angle - Math.PI/2) < 0.1) {
+      // 下方
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+    } else {
+      // 其他角度保持居中
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+    }
+    
     ctx.fillText(dims[i].label, x, y);
   }
 };
