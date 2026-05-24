@@ -588,182 +588,206 @@ window.MBTI_PROFILES = {
 
 // 维度说明：E/I (外向/内向), S/N (感觉/直觉), T/F (思考/情感), J/P (判断/感知)
 // direction: 1 表示同意=偏向第一个字母(E/S/T/J)，-1 表示同意=偏向第二个字母(I/N/F/P)
+// 每个维度 30 道题（15 正向 + 15 反向），按质量排序——靠前的题目更经典、更典型
 
 const questionPool = {
   EI: [
-    "在社交聚会中，我感到精力充沛而非疲惫",
-    "我喜欢成为众人关注的焦点",
-    "我更喜欢与一群人交流想法，而非一对一的深度对话",
-    "结识新朋友让我感到兴奋和期待",
-    "我倾向于先说话再思考，边说边理清思路",
-    "在团队中工作时，我比独自工作时更有干劲",
-    "我经常主动发起对话和社交活动",
-    "独处太久会让我感到焦躁不安",
-    "我觉得电话沟通比文字消息更高效",
-    "我乐于在聚会中穿梭于不同人群之间",
-    "我的朋友圈很广，乐于和不同背景的人交往",
-    "在讨论中，我通常是发言最活跃的人之一",
-    "我经常在会议或课堂中积极举手发言",
-    "我更倾向于通过与人讨论来形成自己的观点",
-    "周末我更喜欢外出社交而非在家安静度过",
-    "我能同时与多人保持密切的联系和互动",
-    "我更喜欢开放式办公环境而非独立办公室",
-    "我觉得自己在人群中比独处时更有存在感",
-    "我经常参加各种社交活动和聚会",
-    "新环境中的陌生人对我来说是机会而非威胁",
-    "我倾向于快速回应消息，不喜欢让对话中断",
-    "我喜欢在团队头脑风暴中贡献想法",
-    "与朋友相处后，我感到更加活力充沛",
-    "我觉得社交是生活中不可或缺的乐趣来源",
-    "我更倾向于先行动再反思",
-    "面对陌生人时，我能自然地打破沉默",
-    "我喜欢参加大型派对和庆典活动",
-    "我经常在咖啡厅或共享空间工作学习",
-    "我用说话来整理和表达我的思维过程",
-    "我被描述为一个外向和健谈的人"
+    // === 正向（同意→E）===
+    { text: "在热闹的社交活动中，我感到精力充沛", direction: 1 },
+    { text: "我更愿意通过说话来整理和表达思路", direction: 1 },
+    { text: "结识新朋友对我来说是件令人兴奋的事", direction: 1 },
+    { text: "在团队讨论中我经常主动发言", direction: 1 },
+    { text: "独自待太久会让我感到焦躁不安", direction: 1 },
+    { text: "我倾向于快速回应消息以保持对话流畅", direction: 1 },
+    { text: "我喜欢快节奏、充满互动的工作环境", direction: 1 },
+    { text: "电话或面对面沟通比书面沟通更高效", direction: 1 },
+    { text: "我通常是社交活动的发起者而非等待者", direction: 1 },
+    { text: "我能在短时间内与陌生人自然交谈", direction: 1 },
+    { text: "多人头脑风暴比独自思考更能激发我的创意", direction: 1 },
+    { text: "在社交后我感到精力更加充沛", direction: 1 },
+    { text: "广泛的社交圈对我来说很重要", direction: 1 },
+    { text: "我在人群中感到自在和充满活力", direction: 1 },
+    { text: "我喜欢成为聚会中的活跃分子", direction: 1 },
+
+    // === 反向（同意→I）===
+    { text: "我需要大量独处时间来恢复精力", direction: -1 },
+    { text: "我更喜欢一对一的深度对话而非群体聊天", direction: -1 },
+    { text: "发言前我需要先在脑中组织好语言", direction: -1 },
+    { text: "大型社交活动后我会感到精疲力竭", direction: -1 },
+    { text: "我更愿意用文字而非口头来表达复杂想法", direction: -1 },
+    { text: "安静的独处时光是我一天中最享受的部分", direction: -1 },
+    { text: "我倾向于先倾听和观察再发表意见", direction: -1 },
+    { text: "少数几个挚友比广泛的社交圈更让我满足", direction: -1 },
+    { text: "社交一段时间后我必须独处充电", direction: -1 },
+    { text: "我不喜欢成为众人目光的焦点", direction: -1 },
+    { text: "独自完成工作通常比团队协作更高效", direction: -1 },
+    { text: "在人多的场合我往往保持沉默", direction: -1 },
+    { text: "我更习惯通过写作而非口头表达自己", direction: -1 },
+    { text: "我享受沉浸在自己的内心世界中", direction: -1 },
+    { text: "过度的社交互动会让我感到疲惫", direction: -1 }
   ],
+
   SN: [
-    "我更关注具体的细节和事实，而非抽象的概念和理论",
-    "我更喜欢遵循经过验证的方法，而非尝试全新的方式",
-    "我倾向于关注当下和眼前，而非遥远的未来可能性",
-    "实践经验和具体数据比直觉灵感更让我信服",
-    "我更喜欢按步骤做事，享受稳定可预期的节奏",
-    "做决定时，我主要依据过往经验和已知事实",
-    "我更喜欢处理实际可操作的任务",
-    "我重视传统和已被证明有效的方法",
-    "我对具体可见的成果比对抽象理念更感兴趣",
-    "在学习新东西时，我需要明确的步骤和例子",
-    "我倾向于描述事物的外观和特征，而非其象征意义",
-    "我更喜欢实用的工具和技能，而非理论探讨",
-    "我对周围环境的物理细节有敏锐的观察力",
-    "我倾向于按部就班地完成任务",
-    "比起天马行空的想象，我更相信实地调查",
-    "我喜欢有明确标准和流程的工作",
-    "我对从事实到结论的归纳更舒服",
-    "我觉得脚踏实地比仰望星空更重要",
-    "比起创新的想法，我更看重可执行性",
-    "我更信任亲眼所见而非直觉感受",
-    "我不喜欢过于模糊和开放的任务描述",
-    "我倾向于关注事物本来的样子，而非可能的样子",
-    "处理问题时，我首先收集所有具体信息",
-    "我觉得现实世界的经验比书本理论更可靠",
-    "我不太喜欢哲学性和概念化的讨论",
-    "我更记得住具体的事件和细节，而非整体印象",
-    "我喜欢使用清单和日程表来管理任务",
-    "做决策时我依赖客观数据和事实",
-    "我倾向于先弄清楚「是什么」，再考虑「可能是什么」",
-    "我在工作中注重精确性和准确性"
+    // === 正向（同意→S）===
+    { text: "我更信任实践经验胜过抽象理论", direction: 1 },
+    { text: "我更关注具体细节而非整体印象", direction: 1 },
+    { text: "我更喜欢按照既定步骤循序渐进地做事", direction: 1 },
+    { text: "解决实际问题比探讨理论更让我有成就感", direction: 1 },
+    { text: "过去成功的经验是我决策的重要依据", direction: 1 },
+    { text: "我注重事物的实际用途和应用价值", direction: 1 },
+    { text: "我倾向于用事实和数据来支撑观点", direction: 1 },
+    { text: "我对周围环境的物理细节有敏锐的感知", direction: 1 },
+    { text: "遵循已验证的方法比尝试未知方式更稳妥", direction: 1 },
+    { text: "我更喜欢处理明确、可量化的任务", direction: 1 },
+    { text: "做决策时我依赖已有的事实和数据", direction: 1 },
+    { text: "我倾向于关注当下和眼前而非遥远的可能性", direction: 1 },
+    { text: "我觉得脚踏实地比仰望星空更重要", direction: 1 },
+    { text: "我喜欢有清晰步骤和标准流程的工作", direction: 1 },
+    { text: "我对「如何做」比对「为什么」更感兴趣", direction: 1 },
+
+    // === 反向（同意→N）===
+    { text: "我经常沉浸在对未来可能性的想象中", direction: -1 },
+    { text: "比起细节我更关注整体模式和大方向", direction: -1 },
+    { text: "我喜欢探索新颖独特的想法和理论", direction: -1 },
+    { text: "我常常在不同事物之间看到潜在的联系", direction: -1 },
+    { text: "我享受抽象概念和哲学性的思考", direction: -1 },
+    { text: "我总是思考事物可以变得更好的各种方式", direction: -1 },
+    { text: "突破传统的创新比延续传统更有价值", direction: -1 },
+    { text: "我不喜欢被固定流程和规则束缚", direction: -1 },
+    { text: "灵感和直觉常常是我最好的指引", direction: -1 },
+    { text: "我更喜欢思考「可能是什么」而非「现在是什么」", direction: -1 },
+    { text: "我对模式和趋势的感觉比具体数据更敏锐", direction: -1 },
+    { text: "我容易被宏大的愿景和蓝图所吸引", direction: -1 },
+    { text: "我喜欢尝试新的做事方式而非遵循旧方法", direction: -1 },
+    { text: "跳跃式的联想是我思考的常见方式", direction: -1 },
+    { text: "我对隐喻和象征的理解比对字面含义更感兴趣", direction: -1 }
   ],
+
   TF: [
-    "做决策时，我主要依靠逻辑和理性分析",
-    "我认为公平公正比照顾个人感受更重要",
-    "我能够客观地指出他人的问题，即使可能让对方不舒服",
-    "在处理矛盾时，我更看重谁更有道理而非谁更需要照顾",
-    "我对数据和事实比对人的故事更感兴趣",
-    "我认为规则应该统一适用于所有人，不应有例外",
-    "我倾向于用分析和推理来解决问题",
-    "我在给出反馈时更注重准确性而非委婉程度",
-    "比起人际关系和谐，我更在意事情的真相",
-    "做重要决定时，我会列出利弊清单来分析",
-    "当遇到意见分歧时，我倾向于通过逻辑说服对方",
-    "我认为效率和结果比团队氛围更优先",
-    "我倾向于质疑未经证实的观点和主张",
-    "我在讨论中更关注论点本身而非发言者的感受",
-    "我认为批评是改进的必要手段，不应回避",
-    "做决策时我会尽量排除个人情感因素的干扰",
-    "我倾向于用「正确」和「错误」来评判事物",
-    "比起感人的故事，我更容易被有力的论据说服",
-    "在团队中我更关注任务完成度而非成员情绪",
-    "我认为理性思考比直觉感受更可靠",
-    "我在争论时关注逻辑漏洞而非对方的面子",
-    "我倾向于先分析问题再考虑人的因素",
-    "当同事犯错时，我会直接指出来",
-    "我认为客观标准比主观感受更有说服力",
-    "在做人事决策时我优先考虑能力和业绩",
-    "我不太容易被情感诉求打动",
-    "我倾向于将问题拆解为可分析的组成部分",
-    "在面对选择时我更相信理性计算而非直觉",
-    "我认为好决策应该经得起逻辑检验",
-    "我在处理敏感话题时仍然坚持直言不讳"
+    // === 正向（同意→T）===
+    { text: "做决策时我会优先运用逻辑和理性分析", direction: 1 },
+    { text: "我认为公平公正比照顾个人感受更重要", direction: 1 },
+    { text: "我善于发现论证中的逻辑漏洞", direction: 1 },
+    { text: "批评错误有助于改进，不必过于委婉", direction: 1 },
+    { text: "我在讨论中关注论点本身而非发言者的感受", direction: 1 },
+    { text: "我会用数据和事实来支持我的判断", direction: 1 },
+    { text: "规则面前人人平等，不应有例外", direction: 1 },
+    { text: "面对矛盾时我首先辨别是非对错", direction: 1 },
+    { text: "我会在做决定时排除个人情感的干扰", direction: 1 },
+    { text: "我认为好的决策应当经得起逻辑检验", direction: 1 },
+    { text: "在团队中任务完成度优先于成员情绪", direction: 1 },
+    { text: "有力的论据比感人的故事更能说服我", direction: 1 },
+    { text: "我认为客观标准比主观感受更可靠", direction: 1 },
+    { text: "在争论中我直接指出问题而非委婉回避", direction: 1 },
+    { text: "我做人事判断时优先考虑能力和业绩", direction: 1 },
+
+    // === 反向（同意→F）===
+    { text: "做决策时我会优先考虑对他人的影响", direction: -1 },
+    { text: "和谐的人际关系比严格的对错判断更重要", direction: -1 },
+    { text: "我容易被他人的情绪感受所感染", direction: -1 },
+    { text: "在给出反馈时我会格外注意措辞以免伤人", direction: -1 },
+    { text: "维护团队和谐有时比坚持己见更值得", direction: -1 },
+    { text: "我相信同理心是解决问题的关键能力", direction: -1 },
+    { text: "我会根据具体情况灵活调整规则", direction: -1 },
+    { text: "在冲突中我首先想修复关系而非分清责任", direction: -1 },
+    { text: "了解他人的处境和感受对我至关重要", direction: -1 },
+    { text: "我常常依循个人价值观而非纯逻辑做决定", direction: -1 },
+    { text: "我倾向于避免可能伤害他人感情的直言", direction: -1 },
+    { text: "他人的认可能给我带来强烈的满足感", direction: -1 },
+    { text: "在团队中营造温暖氛围比追求效率更优先", direction: -1 },
+    { text: "做决定时我会反复考虑各方的感受", direction: -1 },
+    { text: "我倾向于根据个案的特殊性而非统一标准做判断", direction: -1 }
   ],
+
   JP: [
-    "我喜欢提前制定详细的计划和日程安排",
-    "把事情确定下来让我感到安心和踏实",
-    "我倾向于在截止日期前早早完成任务",
-    "生活和工作的有序性对我而言非常重要",
-    "我更喜欢遵循既定的计划和结构",
-    "面对多项任务时，我习惯列出优先级并逐一完成",
-    "我倾向于做出决策后就不再轻易改变",
-    "未决的事情会给我带来心理压力和焦虑",
-    "我喜欢有明确的规则和时间节点",
-    "我的桌面和工作空间通常整洁有序",
-    "提前做好安排比临时应变更能发挥我的能力",
-    "我喜欢在开始工作前就有清晰的蓝图",
-    "制定清单和计划让我感到掌控感",
-    "我觉得守时和遵守承诺是基本素养",
-    "我不喜欢最后一刻才做出决定",
-    "对我而言，计划本身就能带来满足感",
-    "我倾向于一次专注完成一件事",
-    "被打乱计划会让我感到烦躁不安",
-    "比起留有余地的开放式结尾，我更喜欢明确的结论",
-    "定期整理和归档文件对我来说很自然",
-    "我倾向于在购物前列好清单",
-    "我喜欢提前预订和安排好旅行的一切",
-    "将待办事项从清单中划掉让我感到愉悦",
-    "我觉得生活有规律比随性而为更舒适",
-    "我在面对新项目时首先会制定时间线",
-    "我倾向于尽早做出决定以减少不确定性",
-    "相较灵活多变的环境，我更喜欢结构化的环境",
-    "我会为重要的事情提前做好充分准备",
-    "我觉得拖延是应该尽力避免的习惯",
-    "我对模棱两可的指示和要求感到不适"
+    // === 正向（同意→J）===
+    { text: "提前制定计划让我感到安心和踏实", direction: 1 },
+    { text: "我喜欢把事情确定下来并按计划推进", direction: 1 },
+    { text: "我倾向于在截止日期前早早完成任务", direction: 1 },
+    { text: "有明确规则和结构的环境让我更高效", direction: 1 },
+    { text: "我享受从待办清单中划掉已完成事项的快感", direction: 1 },
+    { text: "未完成的事情会持续占据我的注意力", direction: 1 },
+    { text: "做出决定比保持多种选择更让我轻松", direction: 1 },
+    { text: "旅行前我会详细安排好行程和住宿", direction: 1 },
+    { text: "有规律的生活节奏让我感到舒适", direction: 1 },
+    { text: "我偏好有条理、可预测的工作方式", direction: 1 },
+    { text: "我会为新项目制定详细的时间线和计划", direction: 1 },
+    { text: "拖延是我尽力避免的习惯", direction: 1 },
+    { text: "固定的日程安排让我有掌控感", direction: 1 },
+    { text: "整理和归档文件对我来说是自然而然的事", direction: 1 },
+    { text: "模棱两可的指示让我感到不安", direction: 1 },
+
+    // === 反向（同意→P）===
+    { text: "我喜欢保留多种选择而非过早确定方向", direction: -1 },
+    { text: "计划赶不上变化，我更相信灵活应变", direction: -1 },
+    { text: "截止日期临近时的紧迫感能激发我的最佳状态", direction: -1 },
+    { text: "灵活开放的生活节奏比严格规划更吸引我", direction: -1 },
+    { text: "我享受探索过程中意外带来的惊喜", direction: -1 },
+    { text: "我常常同时开展多个项目并乐在其中", direction: -1 },
+    { text: "过于固定的日程和规则会让我感到被束缚", direction: -1 },
+    { text: "我倾向于让事情顺其自然地发展", direction: -1 },
+    { text: "一时兴起的决定往往带来最美妙的体验", direction: -1 },
+    { text: "我更适应变化多端、不可预测的环境", direction: -1 },
+    { text: "比起提前规划，我更享受即兴发挥的乐趣", direction: -1 },
+    { text: "我乐于在最后一刻做出临时调整", direction: -1 },
+    { text: "过多计划和安排会限制我的创造力", direction: -1 },
+    { text: "我更偏爱随性的生活方式", direction: -1 },
+    { text: "保持开放的心态比过早下结论更重要", direction: -1 }
   ]
 };
 
-function generateQuestions(totalCount) {
-  const dims = ['EI','SN','TF','JP'];
-  const perDim = Math.floor(totalCount / 4);
+// 按版本选取固定题目子集，保证同一版本每次题目一致且测量准确
+const VERSION_CONFIG = {
+  basic:    { forward: 3, reverse: 3 },   // 24 题：每维度 3F+3R
+  advanced: { forward: 10, reverse: 10 }, // 80 题：每维度 10F+10R
+  full:     { forward: 15, reverse: 15 }  // 120 题：每维度全部 15F+15R
+};
+
+function generateQuestions(version) {
+  const config = VERSION_CONFIG[version];
+  const dims = ['EI', 'SN', 'TF', 'JP'];
   const questions = [];
   let id = 1;
 
   dims.forEach(function(dim) {
     const pool = questionPool[dim];
-    // Shuffle and take perDim items
-    const shuffled = pool.slice().sort(function() { return Math.random() - 0.5; });
-    for (let i = 0; i < perDim; i++) {
-      const idx = i % pool.length;
+    const fwd = pool.filter(function(q) { return q.direction === 1; });
+    const rev = pool.filter(function(q) { return q.direction === -1; });
+
+    // 取前 N 道正向题
+    for (let i = 0; i < config.forward; i++) {
       questions.push({
         id: id,
-        text: pool[idx],
+        text: fwd[i].text,
         dimension: dim,
-        direction: 1  // All questions are positive-direction (agree = more E/S/T/J)
+        direction: fwd[i].direction
+      });
+      id++;
+    }
+
+    // 取前 N 道反向题
+    for (let i = 0; i < config.reverse; i++) {
+      questions.push({
+        id: id,
+        text: rev[i].text,
+        dimension: dim,
+        direction: rev[i].direction
       });
       id++;
     }
   });
 
-  // Add reverse-scored items for balance (~30%)
-  // For each dimension, flip direction of some questions
-  const flipCount = Math.floor(perDim * 0.3);
-  for (let d = 0; d < dims.length; d++) {
-    const dimQuestions = questions.filter(function(q) { return q.dimension === dims[d]; });
-    for (let f = 0; f < flipCount && f < dimQuestions.length; f++) {
-      dimQuestions[dimQuestions.length - 1 - f].direction = -1;
-    }
-  }
-
-  // Shuffle all questions
+  // 乱序排列，避免正向/反向题集中出现
   questions.sort(function() { return Math.random() - 0.5; });
-  // Re-assign IDs
   questions.forEach(function(q, i) { q.id = i + 1; });
 
   return questions;
 }
 
 window.QUESTIONS = {
-  basic: generateQuestions(24),
-  advanced: generateQuestions(80),
-  full: generateQuestions(120)
+  basic: generateQuestions('basic'),
+  advanced: generateQuestions('advanced'),
+  full: generateQuestions('full')
 };
 
 })();
