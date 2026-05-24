@@ -1046,7 +1046,7 @@ window.generateReport = function(typeCode, scores) {
 '        </div>' +
 '        <!-- Restart -->' +
 '        <div class="report-restart">' +
-'          <button class="btn-restart" onclick="location.reload()">重新测试</button>' +
+'          <button class="btn-restart" onclick="localStorage.removeItem(\'mbti_result\');location.reload()">重新测试</button>' +
 '        </div>' +
 '      </div>' +
 '    </div>';
@@ -1055,6 +1055,36 @@ window.generateReport = function(typeCode, scores) {
 /* ========== 5. 主控逻辑 (main.js) ========== */
 (function() {
   'use strict';
+
+  // 检查是否有上次结果，有则直接显示报告
+  var savedResult = localStorage.getItem('mbti_result');
+  if (savedResult) {
+    try {
+      var resultData = JSON.parse(savedResult);
+      var reportHTML = window.generateReport(resultData.typeCode, resultData.scores);
+      var reportPage = document.getElementById('report-page');
+      if (reportHTML && reportPage) {
+        reportPage.innerHTML = reportHTML;
+        var homePage = document.getElementById('home-page');
+        var quizPage = document.getElementById('quiz-page');
+        homePage.classList.remove('active');
+        quizPage.classList.remove('active');
+        reportPage.classList.add('active');
+        // 等待DOM更新后绘制雷达图
+        setTimeout(function() {
+          var canvas = document.getElementById('radar-canvas');
+          if (canvas) {
+            window.drawRadarChart(canvas, resultData.scores);
+          }
+        }, 50);
+        // 跳过后续初始化
+        return;
+      }
+    } catch (e) {
+      console.warn('读取上次结果失败', e);
+      localStorage.removeItem('mbti_result');
+    }
+  }
 
   // --- DOM Refs ---
   var homePage = document.getElementById('home-page');
@@ -1223,6 +1253,13 @@ window.generateReport = function(typeCode, scores) {
       
       reportPage.innerHTML = reportHTML;
       showPage(reportPage);
+
+      // 保存结果，下次打开时直接显示
+      localStorage.setItem('mbti_result', JSON.stringify({
+        typeCode: typeCode,
+        scores: scores,
+        version: currentVersion
+      }));
 
       // 等待DOM更新后绘制雷达图
       setTimeout(function() {
